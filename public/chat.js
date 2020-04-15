@@ -1,13 +1,13 @@
 $(function(){
-    var socket = io.connect('http://localhost:3000/')
+    var socket = io.connect('http://0.0.0.0:80/')
 
     var message = $("#message")
-    var username = $("#username")
     var send_message = $("#send_message")
     var send_username = $("#send_username")
     var chatroom = $("#chatroom")
     var feedback = $("#feedback")
     var admin_panel = $("#admin_panel")
+    var username = ''
 
 
     //Connect
@@ -35,6 +35,6 @@ $(function(){
     })
     //Disconnect
     socket.on('disconnect', function(){
-        socket.emit('disconnect', username)
+        socket.emit('disconnect', socket.username)
     })
 });

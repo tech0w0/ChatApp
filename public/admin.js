@@ -1,31 +1,41 @@
 $(function(){
-    var socket = io.connect('http://localhost:3000/')
+    var socket = io.connect('http://0.0.0.0:80/')
 
-     var back = $("#back")
-     var table-clients = $("#table-clients")
-     var username = $("#username")
-     var socket-id = $("#socket-id")
-     var disconnect = $("#disconnect")
     //Connect
     socket.on('connect', function(){
-        username = admin
+        username = "admin"
         socket.emit('NewClient', username)
     })
 
-    back.click(function(){
-        window.history.back()
-    })
-
+    //Populating Table
     socket.on('show_table', function(clients){
-        var t = "";
-        var query = test//'<button id="back" class="vertical-align" type="button">Back to Chat</button>'
-        for (var key in clients){
-              var val = clients[key]
-              document.getElementById("username").innerHTML = val;
-              document.getElementById("socket-id").innerHTML = key;
-              document.getElementById("disconnect").innerHTML = query;
+
+        function generateTableHead(table, data) {
+          let thead = table.createTHead();
+          let row = thead.insertRow();
+          let headers = ["Username", "Socket_ID", "Disconnect"]
+           for (var i = 0; i < headers.length; i++) {
+            let th = document.createElement("th");
+            let text = document.createTextNode(headers[i]);
+            th.appendChild(text);
+            row.appendChild(th);
+          }
         }
 
-    })
+        function generateTable(table, data) {
+          for (let element of data) {
+            let row = table.insertRow();
+            for (key in element) {
+              let cell = row.insertCell();
+              let text = document.createTextNode(element[key]);
+              cell.appendChild(text);
+            }
+          }
+        }
 
-})
+        let table = document.querySelector("table");
+        let data = Object.keys(mountains[0]);
+        generateTableHead(table, data);
+        generateTable(table, mountains);
+    })
+});

@@ -6,30 +6,38 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 var online = 0
-var clients = {}
+var user = {}
+var clients = []
 
 app.get('/', (req, res) => {
     res.render('index')
 })
 
-server = app.listen(3000, function(){
-    console.log('Listening for connection on port 3000...')
+server = app.listen(80, function(){
+    console.log('Listening for connection on port 80...')
 })
 
 const io = require("socket.io")(server)
 
 io.on('connection', (socket) => {
-
-    console.log('New user connected', socket.id)
     //Adding new clients to list
     socket.on('NewClient', function(username){
-        console.log('Client with username: ' + username + ' joined the chat')
-        socket.username = username
-        online = online + 1
-        clients[socket.id] = username
+        if (username === 'admin') {
+            console.log('ADMIN ALERT')
+            socket.emit("show_table", clients)
+        }
+        else{
+            console.log('Client with username: ' + username + ' joined the chat')
+            socket.username = username
+            online = online + 1
+            user.username = username
+            user.socket_id = socket.id
 
-        if (username === 'admin'){
-            socket.emit('show_table', clients)
+            clients.push(user)
+            for (var i = 0; i < clients.length; i++){
+                console.log(clients[i])
+            }
+
         }
     })
     //Listen on new_message
@@ -42,9 +50,10 @@ io.on('connection', (socket) => {
     })
     //Disconnect
     socket.on('disconnect', (data) => {
-        console.log('Client with username: ' + data + ' quit the chat')
-        online = online - 1
-        for( var i = 0; i < clients.length; i++){ if ( clients[i] === data) { clients.splice(i, 1); }}
-        console.log(clients)
+            console.log('Client with username: ' + data + ' quit the chat')
+            online = online - 1
+            for( var i = 0; i < clients.length; i++){ if ( clients[i] === data) { clients.splice(i, 1); }}
+            console.log(clients)
+
     })
 })
