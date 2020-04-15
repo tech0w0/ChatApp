@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
+    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="style.css" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <title>Admin Panel</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Admin Panel</h1>
+      <button id="back" class="vertical-align" type="button">Back to Chat</button>
+    </header>
+
+    <section>
+        <table id="table-clients" border="1">
+            <tr>
+                <th>Username</th>
+                <th>Socket ID</th>
+                <th>Disconnect</th>
+            </tr>
+            <tr>
+                <td id="username"></td>
+                <td id="socket-id"></td>
+                <td id="disconnect"></td>
+            </tr>
+        </table>
+    </section>
+
+
+    <script src=”https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
