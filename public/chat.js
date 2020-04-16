@@ -19,12 +19,13 @@ $(function(){
     //Send message
     send_message.click(function(){
         socket.emit('new_message', {message: message.val()})
+        message.val('')
     })
 
     //Listen for message
     socket.on("new_message", (data) => {
-        console.log(data)
         chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+        feedback.html('')
     })
     //Typing feature
     message.bind('keypress', () => {

@@ -34,10 +34,6 @@ io.on('connection', (socket) => {
             user.socket_id = socket.id
 
             clients.push(user)
-            for (var i = 0; i < clients.length; i++){
-                console.log(clients[i])
-            }
-
         }
     })
     //Listen on new_message
