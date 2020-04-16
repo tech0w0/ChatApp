@@ -4,9 +4,19 @@ const app = express()
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
+app.use(function(req, res, next) {
+
+  res.header("Access-Control-Allow-Origin", "*");
+
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+  next();
+
+});
 
 var online = 0
-var user = []
+var user = ''
+var clients = []
 
 app.get('/', (req, res) => {
     res.render('index')
@@ -23,17 +33,14 @@ io.on('connection', (socket) => {
     socket.on('NewClient', function(username){
         if (username === 'admin') {
             console.log('ADMIN ALERT')
-           // socket.emit("show_table")
+            socket.emit('show_table', clients)
         }
         else{
             console.log('Client with username: ' + username + ' joined the chat')
             socket.username = username
             online = online + 1
-            user.push(username)
-            //user.username = username
-            //user.socket_id = socket.id
-            socket.emit('new_user', username)
-
+            user = username + ' ' + socket.id
+            clients.push(user)
         }
     })
     //Listen on new_message
@@ -46,10 +53,12 @@ io.on('connection', (socket) => {
     })
     //Disconnect
     socket.on('disconnect', () => {
-            console.log('Client with username: ' + socket.username + ' quit the chat')
-            online = online - 1
-            //for( var i = 0; i < clients.length; i++){ if ( clients[i] === data) { clients.splice(i, 1); }}
-            //console.log(clients)
-
+            if(socket.username !== undefined){
+                console.log('Client with username: ' + socket.username + ' quit the chat')
+                online = online - 1
+                for( var i = 0; i < clients.length; i++){ if ( clients[i].split(' ')[0] === socket.username) { clients.splice(i, 1); }}
+                console.log(clients)
+            }
     })
+
 })

@@ -1,28 +1,27 @@
 $(function(){
     var socket = io.connect('http://0.0.0.0:80/')
 
-    var pane = $("#panel")
-    var clients = []
+    var panel = $("#panel")
+    var feedback = $("#feedback")
+    var username = ''
+    var socket_id = ''
     //Connect
     socket.on('connect', function(){
         username = "admin"
         socket.emit('NewClient', username)
     })
 
-    //Adding new user to client list
-    socket.on('new_user', function(user){
-        //clients.push(data)
-
-         panel.append("<p>User: " + user + "</p>")
-
-    })
-
     //Populating Table
-    socket.on('show_table', function(){
-        //for(var key of clients){
-           // panel.append("<p>" + key.username + "</p>")
-            //panel.append("<p>" + key.socket_id + "</p>")
-        //}
+    socket.on('show_table', function(clients){
+        for( var i = 0; i < clients.length; i++){
+            var tmp = clients[i].split(" ")
+            socket_id = tmp[1]
+            username = tmp[0]
+            panel.append("<p>" + username + ' ' + socket_id + "</p>")
+            feedback.html('')
+        }
+       // socket.emit('disconnect_client')
     })
+
 
 });
