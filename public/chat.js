@@ -36,6 +36,6 @@ $(function(){
     })
     //Disconnect
     socket.on('disconnect', function(){
-        socket.emit('disconnect', socket.username)
+        socket.emit('disconnect')
     })
 });

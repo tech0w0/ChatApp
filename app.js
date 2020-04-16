@@ -6,8 +6,7 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 var online = 0
-var user = {}
-var clients = []
+var user = []
 
 app.get('/', (req, res) => {
     res.render('index')
@@ -24,16 +23,17 @@ io.on('connection', (socket) => {
     socket.on('NewClient', function(username){
         if (username === 'admin') {
             console.log('ADMIN ALERT')
-            socket.emit("show_table", clients)
+           // socket.emit("show_table")
         }
         else{
             console.log('Client with username: ' + username + ' joined the chat')
             socket.username = username
             online = online + 1
-            user.username = username
-            user.socket_id = socket.id
+            user.push(username)
+            //user.username = username
+            //user.socket_id = socket.id
+            socket.emit('new_user', username)
 
-            clients.push(user)
         }
     })
     //Listen on new_message
@@ -45,11 +45,11 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('typing', {username: socket.username})
     })
     //Disconnect
-    socket.on('disconnect', (data) => {
-            console.log('Client with username: ' + data + ' quit the chat')
+    socket.on('disconnect', () => {
+            console.log('Client with username: ' + socket.username + ' quit the chat')
             online = online - 1
-            for( var i = 0; i < clients.length; i++){ if ( clients[i] === data) { clients.splice(i, 1); }}
-            console.log(clients)
+            //for( var i = 0; i < clients.length; i++){ if ( clients[i] === data) { clients.splice(i, 1); }}
+            //console.log(clients)
 
     })
 })
