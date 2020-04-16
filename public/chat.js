@@ -1,5 +1,5 @@
 $(function(){
-    var socket = io.connect('http://0.0.0.0:80/')
+    var socket = io.connect('http://34.77.0.175:80/')
 
     var message = $("#message")
     var send_message = $("#send_message")

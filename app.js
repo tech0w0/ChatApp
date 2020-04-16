@@ -1,11 +1,9 @@
 const express = require('express')
 const app = express()
-const cors = require('cros')
 
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
-app.use(cors())
 
 var online = 0
 var user = ''
