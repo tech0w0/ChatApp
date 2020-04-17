@@ -9,17 +9,20 @@
   </head>
 
   <body>
-    <header>
-      <h1>Admin Panel</h1>
-      <button id="back" type="button" onclick="window.">Back to Chat</button>
-    </header>
-
-
-    <section id="panel">
-      <section id="feedback"></section>
-    </section>
-
-
+  <br>
+    <h1 align="center">Admin Panel</h1>
+    <h4 align="center">All the clients connected to the chat right now:</h4>
+    <br>
+    <table align="center">
+      <tr>
+        <th>Username</th>
+        <th>Socket ID</th>
+      </tr>
+      <tr>
+        <td><ul id="usernames"></ul></td>
+        <td><ul id="socket_id"></ul></td>
+      </tr>
+    </table>
     <script src=”https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="admin.js"></script>

@@ -47,8 +47,14 @@ io.on('connection', (socket) => {
             if(socket.username !== undefined){
                 console.log('Client with username: ' + socket.username + ' quit the chat')
                 online = online - 1
-                for( var i = 0; i < clients.length; i++){ if ( clients[i].split(' ')[0] === socket.username) { clients.splice(i, 1); }}
-                console.log(clients)
+                if (online === 0) {
+                    console.log('No Clients connected now')
+                }
+                else {
+                    for( var i = 0; i < clients.length; i++){ if ( clients[i].split(' ')[0] === socket.username) { clients.splice(i, 1); }}
+                    console.log("Remaining cliends on the chat: " + clients)
+                }
+
             }
     })
 

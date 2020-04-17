@@ -3,6 +3,8 @@ $(function(){
 
     var panel = $("#panel")
     var feedback = $("#feedback")
+    var usernames = $("#usernames")
+    var socket_id = $("#socket_id")
     var username = ''
     var socket_id = ''
     //Connect
@@ -13,15 +15,25 @@ $(function(){
 
     //Populating Table
     socket.on('show_table', function(clients){
-        for( var i = 0; i < clients.length; i++){
-            var tmp = clients[i].split(" ")
-            socket_id = tmp[1]
-            username = tmp[0]
-            panel.append("<p>" + username + ' ' + socket_id + "</p>")
-            feedback.html('')
+        var ul = document.getElementById("usernames");
+        var ul2 = document.getElementById("socket_id");
+        var ul3 = document.getElementById("buttons");
+
+        for (var i = 0; i < clients.length; i++) {
+          var username = clients[i].split(" ")[0];
+
+          var listItem = document.createElement("li");
+          listItem.textContent = username;
+
+          ul.appendChild(listItem);
         }
-       // socket.emit('disconnect_client')
+        for (var i = 0; i < clients.length; i++) {
+          var socket_id = clients[i].split(" ")[1];
+
+          var listItem = document.createElement("li");
+          listItem.textContent = socket_id;
+
+          ul2.appendChild(listItem);
+        }
     })
-
-
 });
